@@ -4,6 +4,7 @@ using HRMS.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace HRMS.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260507071352_AttendanceAndLeaveModule")]
+    partial class AttendanceAndLeaveModule
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -289,48 +292,6 @@ namespace HRMS.Migrations
                     b.ToTable("LeaveTypes");
                 });
 
-            modelBuilder.Entity("HRMS.Models.PayRoll", b =>
-                {
-                    b.Property<int>("PayRollId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PayRollId"));
-
-                    b.Property<int>("AbsentDays")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Deductions")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("GeneratedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("GrossSalary")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("Month")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("NetSalary")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("PresentDays")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Year")
-                        .HasColumnType("int");
-
-                    b.HasKey("PayRollId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("Payrolls");
-                });
-
             modelBuilder.Entity("HRMS.Models.Role", b =>
                 {
                     b.Property<int>("RoleId")
@@ -350,75 +311,6 @@ namespace HRMS.Migrations
                     b.HasKey("RoleId");
 
                     b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("HRMS.Models.SalarySlip", b =>
-                {
-                    b.Property<int>("SalarySlipId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SalarySlipId"));
-
-                    b.Property<DateTime>("GeneratedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PayRollId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PdfPath")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("SlipNumber")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("SalarySlipId");
-
-                    b.HasIndex("PayRollId");
-
-                    b.ToTable("SalarySlips");
-                });
-
-            modelBuilder.Entity("HRMS.Models.SalaryStructure", b =>
-                {
-                    b.Property<int>("SalaryStructureId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SalaryStructureId"));
-
-                    b.Property<decimal>("BasicSalary")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Bonus")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("DA")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("EmployeeId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("HRA")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("PF")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("TA")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("Tax")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("SalaryStructureId");
-
-                    b.HasIndex("EmployeeId");
-
-                    b.ToTable("SalaryStructures");
                 });
 
             modelBuilder.Entity("HRMS.Models.Shift", b =>
@@ -569,39 +461,6 @@ namespace HRMS.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("LeaveType");
-                });
-
-            modelBuilder.Entity("HRMS.Models.PayRoll", b =>
-                {
-                    b.HasOne("HRMS.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
-                });
-
-            modelBuilder.Entity("HRMS.Models.SalarySlip", b =>
-                {
-                    b.HasOne("HRMS.Models.PayRoll", "PayRoll")
-                        .WithMany()
-                        .HasForeignKey("PayRollId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PayRoll");
-                });
-
-            modelBuilder.Entity("HRMS.Models.SalaryStructure", b =>
-                {
-                    b.HasOne("HRMS.Models.Employee", "Employee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }

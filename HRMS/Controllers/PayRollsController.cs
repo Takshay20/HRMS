@@ -10,22 +10,23 @@ using HRMS.Models;
 
 namespace HRMS.Controllers
 {
-    public class UserAccountsController : Controller
+    public class PayRollsController : Controller
     {
         private readonly AppDbContext _context;
 
-        public UserAccountsController(AppDbContext context)
+        public PayRollsController(AppDbContext context)
         {
             _context = context;
         }
 
-        // GET: UserAccounts
+        // GET: PayRolls
         public async Task<IActionResult> Index()
         {
-            return View(await _context.UserAccounts.ToListAsync());
+            var appDbContext = _context.Payrolls.Include(p => p.Employee);
+            return View(await appDbContext.ToListAsync());
         }
 
-        // GET: UserAccounts/Details/5
+        // GET: PayRolls/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,40 +34,42 @@ namespace HRMS.Controllers
                 return NotFound();
             }
 
-            var userAccount = await _context.UserAccounts
-                .FirstOrDefaultAsync(m => m.UserAccountId == id);
-            if (userAccount == null)
+            var payRoll = await _context.Payrolls
+                .Include(p => p.Employee)
+                .FirstOrDefaultAsync(m => m.PayRollId == id);
+            if (payRoll == null)
             {
                 return NotFound();
             }
 
-            return View(userAccount);
+            return View(payRoll);
         }
 
-        // GET: UserAccounts/Create
+        // GET: PayRolls/Create
         public IActionResult Create()
         {
-            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "Address");
             return View();
         }
 
-        // POST: UserAccounts/Create
+        // POST: PayRolls/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("UserAccountId,UserName,Email,Password,RoleId,IsActive,CreatedAt")] UserAccount userAccount)
+        public async Task<IActionResult> Create([Bind("PayRollId,EmployeeId,Month,Year,PresentDays,AbsentDays,GrossSalary,Deductions,NetSalary,GeneratedAt")] PayRoll payRoll)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(userAccount);
+                _context.Add(payRoll);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(userAccount);
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "Address", payRoll.EmployeeId);
+            return View(payRoll);
         }
 
-        // GET: UserAccounts/Edit/5
+        // GET: PayRolls/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -74,22 +77,23 @@ namespace HRMS.Controllers
                 return NotFound();
             }
 
-            var userAccount = await _context.UserAccounts.FindAsync(id);
-            if (userAccount == null)
+            var payRoll = await _context.Payrolls.FindAsync(id);
+            if (payRoll == null)
             {
                 return NotFound();
             }
-            return View(userAccount);
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "Address", payRoll.EmployeeId);
+            return View(payRoll);
         }
 
-        // POST: UserAccounts/Edit/5
+        // POST: PayRolls/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("UserAccountId,UserName,Email,Password,RoleId,IsActive,CreatedAt")] UserAccount userAccount)
+        public async Task<IActionResult> Edit(int id, [Bind("PayRollId,EmployeeId,Month,Year,PresentDays,AbsentDays,GrossSalary,Deductions,NetSalary,GeneratedAt")] PayRoll payRoll)
         {
-            if (id != userAccount.UserAccountId)
+            if (id != payRoll.PayRollId)
             {
                 return NotFound();
             }
@@ -98,12 +102,12 @@ namespace HRMS.Controllers
             {
                 try
                 {
-                    _context.Update(userAccount);
+                    _context.Update(payRoll);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserAccountExists(userAccount.UserAccountId))
+                    if (!PayRollExists(payRoll.PayRollId))
                     {
                         return NotFound();
                     }
@@ -114,10 +118,11 @@ namespace HRMS.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(userAccount);
+            ViewData["EmployeeId"] = new SelectList(_context.Employees, "EmployeeId", "Address", payRoll.EmployeeId);
+            return View(payRoll);
         }
 
-        // GET: UserAccounts/Delete/5
+        // GET: PayRolls/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,34 +130,35 @@ namespace HRMS.Controllers
                 return NotFound();
             }
 
-            var userAccount = await _context.UserAccounts
-                .FirstOrDefaultAsync(m => m.UserAccountId == id);
-            if (userAccount == null)
+            var payRoll = await _context.Payrolls
+                .Include(p => p.Employee)
+                .FirstOrDefaultAsync(m => m.PayRollId == id);
+            if (payRoll == null)
             {
                 return NotFound();
             }
 
-            return View(userAccount);
+            return View(payRoll);
         }
 
-        // POST: UserAccounts/Delete/5
+        // POST: PayRolls/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var userAccount = await _context.UserAccounts.FindAsync(id);
-            if (userAccount != null)
+            var payRoll = await _context.Payrolls.FindAsync(id);
+            if (payRoll != null)
             {
-                _context.UserAccounts.Remove(userAccount);
+                _context.Payrolls.Remove(payRoll);
             }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserAccountExists(int id)
+        private bool PayRollExists(int id)
         {
-            return _context.UserAccounts.Any(e => e.UserAccountId == id);
+            return _context.Payrolls.Any(e => e.PayRollId == id);
         }
     }
 }

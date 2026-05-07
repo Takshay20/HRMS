@@ -17,6 +17,14 @@ namespace HRMS.Data
         public DbSet<UserAccount> UserAccounts { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<EmployeeDocument> EmployeesDocuments { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<LeaveType> LeaveTypes { get; set; }
+        public DbSet<LeaveApplication> LeaveApplications { get; set; }
+        public DbSet<HolidayCalendar> HolidayCalendars { get; set; }
+        public DbSet<SalaryStructure> SalaryStructures { get; set; }
+        public DbSet<PayRoll> Payrolls { get; set; }
+        public DbSet<SalarySlip> SalarySlips { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

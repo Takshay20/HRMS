@@ -1,0 +1,53 @@
+﻿@model IEnumerable<HRMS.Models.SalarySlip>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PayRoll)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SlipNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PdfPath)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GeneratedAt)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PayRoll.PayRollId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SlipNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PdfPath)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GeneratedAt)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SalarySlipId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SalarySlipId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SalarySlipId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
