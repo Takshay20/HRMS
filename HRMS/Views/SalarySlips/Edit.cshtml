@@ -1,0 +1,49 @@
+﻿@model HRMS.Models.SalarySlip
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>SalarySlip</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="SalarySlipId" />
+            <div class="form-group">
+                <label asp-for="PayRollId" class="control-label"></label>
+                <select asp-for="PayRollId" class="form-control" asp-items="ViewBag.PayRollId"></select>
+                <span asp-validation-for="PayRollId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SlipNumber" class="control-label"></label>
+                <input asp-for="SlipNumber" class="form-control" />
+                <span asp-validation-for="SlipNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PdfPath" class="control-label"></label>
+                <input asp-for="PdfPath" class="form-control" />
+                <span asp-validation-for="PdfPath" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GeneratedAt" class="control-label"></label>
+                <input asp-for="GeneratedAt" class="form-control" />
+                <span asp-validation-for="GeneratedAt" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

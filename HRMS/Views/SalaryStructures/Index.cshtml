@@ -1,0 +1,77 @@
+﻿@model IEnumerable<HRMS.Models.SalaryStructure>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Employee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BasicSalary)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HRA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TA)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bonus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PF)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tax)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employee.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BasicSalary)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.HRA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TA)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Bonus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PF)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tax)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SalaryStructureId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SalaryStructureId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SalaryStructureId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
